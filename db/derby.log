@@ -1,0 +1,14 @@
+Wed Apr 15 14:54:57 BRT 2026 : Apache Derby Servidor de Rede - 10.17.1.0 - (1913217) iniciado e pronto para aceitar conexões na porta 1527 em {3}
+----------------------------------------------------------------
+Wed Apr 15 15:06:48 BRT 2026:
+ Inicializando o Derby versão The Apache Software Foundation - Apache Derby - 10.17.1.0 - (1913217): instância a816c00e-019d-9248-2fdd-ffff9e15fd34
+no diretório de banco de dados C:\Users\renat\IdeaProjects\Livraria\db\Livraria 
+
+java.vendor=Oracle Corporation
+java.runtime.version=21.0.10+8-LTS-217
+user.dir=C:\Users\renat\IdeaProjects\Livraria
+os.name=Windows 11
+os.arch=amd64
+os.version=10.0
+derby.system.home=C:\Users\renat\IdeaProjects\Livraria\db
+Carregador de classe do banco de dados iniciado - derby.database.classpath=''
