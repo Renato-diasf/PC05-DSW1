@@ -5,8 +5,12 @@ import br.ufscar.dc.dsw.dao.LivroDAO;
 import br.ufscar.dc.dsw.domain.Editora;
 import br.ufscar.dc.dsw.domain.Livro;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -73,8 +77,8 @@ public class LivroController extends HttpServlet {
     }
 
     private Map<Long, String> getEditoras() {
-        Map <Long,String> editoras = new HashMap<>();
-        for (Editora editora: new EditoraDAO().getAll()) {
+        Map<Long, String> editoras = new HashMap<>();
+        for (Editora editora : new EditoraDAO().getAll()) {
             editoras.put(editora.getId(), editora.getNome());
         }
         return editoras;
@@ -101,7 +105,7 @@ public class LivroController extends HttpServlet {
         String titulo = request.getParameter("titulo");
         String autor = request.getParameter("autor");
         Integer ano = Integer.parseInt(request.getParameter("ano"));
-        Float preco = Float.parseFloat(request.getParameter("preco"));
+        Float preco = parsePreco(request.getParameter("preco"));
 
         Long editoraID = Long.parseLong(request.getParameter("editora"));
         Editora editora = new EditoraDAO().get(editoraID);
@@ -112,13 +116,12 @@ public class LivroController extends HttpServlet {
     }
 
     private void atualize(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         request.setCharacterEncoding("UTF-8");
         Long id = Long.parseLong(request.getParameter("id"));
         String titulo = request.getParameter("titulo");
         String autor = request.getParameter("autor");
         Integer ano = Integer.parseInt(request.getParameter("ano"));
-        Float preco = Float.parseFloat(request.getParameter("preco"));
+        Float preco = parsePreco(request.getParameter("preco"));
 
         Long editoraID = Long.parseLong(request.getParameter("editora"));
         Editora editora = new EditoraDAO().get(editoraID);
@@ -134,5 +137,21 @@ public class LivroController extends HttpServlet {
         Livro livro = new Livro(id);
         dao.delete(livro);
         response.sendRedirect("lista");
+    }
+
+    private Float parsePreco(String preco) throws ServletException {
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(new Locale("pt", "BR"));
+        symbols.setDecimalSeparator(',');
+        symbols.setGroupingSeparator('.');
+
+        DecimalFormat format = new DecimalFormat("#,##0.00", symbols);
+        format.setParseBigDecimal(true);
+
+        try {
+            String valorNormalizado = preco == null ? "" : preco.trim();
+            return format.parse(valorNormalizado).floatValue();
+        } catch (ParseException e) {
+            throw new ServletException("Preco invalido. Use o formato 54,00.", e);
+        }
     }
 }

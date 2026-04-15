@@ -2,11 +2,13 @@
          pageEncoding="UTF-8"%>
 <%@ page isELIgnored="false"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
     <title>Livraria Virtual</title>
 </head>
 <body>
+<fmt:setLocale value="pt_BR" />
 <div align="center">
     <h1>Gerenciamento de Livros</h1>
     <h2>
@@ -20,12 +22,12 @@
         <caption>Lista de Livros</caption>
         <tr>
             <th>ID</th>
-            <th>Título</th>
+            <th>Titulo</th>
             <th>Editora</th>
             <th>Autor</th>
             <th>Ano</th>
-            <th>Preço</th>
-            <th>Acões</th>
+            <th>Preco</th>
+            <th>Acoes</th>
         </tr>
         <c:forEach var="livro" items="${requestScope.listaLivros}">
             <tr>
@@ -34,12 +36,12 @@
                 <td>${livro.editora.nome}</td>
                 <td>${livro.autor}</td>
                 <td>${livro.ano}</td>
-                <td>${livro.preco}</td>
-                <td><a href="/${requestScope.contextPath}/livros/edicao?id=${livro.id}">Edição</a>
+                <td><fmt:formatNumber value="${livro.preco}" type="currency" currencySymbol="R$ " minFractionDigits="2" maxFractionDigits="2" /></td>
+                <td><a href="/${requestScope.contextPath}/livros/edicao?id=${livro.id}">Edicao</a>
                     &nbsp;&nbsp;&nbsp;&nbsp; <a
                             href="/${requestScope.contextPath}/livros/remocao?id=${livro.id}"
                             onclick="return confirm('Tem certeza de que deseja excluir este item?');">
-                        Remoção </a></td>
+                        Remocao </a></td>
             </tr>
         </c:forEach>
     </table>
